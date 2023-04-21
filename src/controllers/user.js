@@ -23,7 +23,7 @@ User
         phone: phone,
         email: email,
         hash_password: hash_password,
-        authorized
+        role: "user"
     }, function (err, user) {
         if (err) {
             console.log("Error creating User: ", err);
