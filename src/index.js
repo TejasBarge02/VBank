@@ -14,7 +14,7 @@ env.config();
 
 //MongoDB connection
 //mongodb+srv://root:<password>@cluster0.anmlv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
-mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.anmlv.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`).then(() => {
+mongoose.connect(`mongodb://vbank123:Ipw48fS97wvWZWSVgXaWq4agclhydzRgQFbcHNPUxSuFFpWkkKCW1PIvtkDVPDF1kgWGCSvcyhAOACDbiFZ3lg==@vbank123.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@vbank123@`).then(() => {
     console.log('DataBase Connected');
 });
 app.use(cors());

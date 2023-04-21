@@ -23,7 +23,8 @@ User
         phone: phone,
         email: email,
         hash_password: hash_password,
-        role: 'admin'
+        role: 'admin',
+        authorized: true
     }, function (err, user) {
         if (err) {
             console.log("Error creating User: ", err);
@@ -108,6 +109,21 @@ exports.reqSignin = (req, res, next) => {
     //jwt.decode()
 }
 
+
+exports.auth = (req,res,next) => {
+    User.findOne({email:req.body.email}).exec(async(error,user) => {
+        let email = req.body.email
+        let authorized = true
+        User
+        .updateOne( {email: email}, {$set: {authorized: authorized}})
+        .exec( (error, user) => {
+            if(error) return res.status(400).json({error});
+            res.status(200).json({
+                message: 'Authorized status updated'
+            })
+        })
+    })
+}
 //accept or reject users to login
 exports.isAuthorized = (req, res, next) => {
     User.findOne({email:req.body.email})

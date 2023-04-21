@@ -14,14 +14,16 @@ exports.signup = (req, res) => {
 let fullName = req.body.fullName;
 let phone = req.body.phone;
 let email = req.body.email;
-let hash_password = req.body.hash_password;
+let hash_password = req.body.hash_password
+;
 
 User
     .create({
         fullName: fullName,
         phone: phone,
         email: email,
-        hash_password: hash_password
+        hash_password: hash_password,
+        authorized
     }, function (err, user) {
         if (err) {
             console.log("Error creating User: ", err);
