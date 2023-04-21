@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "undefined/subscriptions/3a0fb847-c787-4a24-b59f-41c8f2490189/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/vbankappnew",
+    "appService.deploySubpath": "."
+}
