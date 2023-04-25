@@ -1,7 +1,9 @@
 const Account = require('../models/account');
-const { findOne } = require('../models/user');
+const User = require('../models/user');
 const {getID} = require('../controllers/user');
 const Transaction = require('../models/transactions');
+const axios = require("axios");
+const fetch = require("node-fetch");
 
 exports.createAccount = (req, res) => {
         let flag = true;
@@ -138,6 +140,121 @@ exports.recharge = (req, res) => {
     });
 }
 
+exports.sendMail = (req,res) => {
+    let{
+        accountNumber,
+        amount,
+        destinationAccountNumber} = req.body;
+
+    let to;
+    Account.findOne({accountNumber: accountNumber}).exec( async(error, account) => {
+        if(error)
+            return res.status(400).json({error});
+        if(account){
+            console.log(account);
+            let id = account.customerID;
+            User.findOne({_id: id}).exec(async(error, user) => {
+                if(error)
+                    return res.status(400).json({error});
+                if(user){
+                    console.log(user);
+                    to = user.email;
+                    console.log(user.email);
+                }
+            
+                    
+            })  
+        }
+    })
+
+    console.log("yaha tak pohocha re");
+    // const responseData = await axios.post(`https://prod-51.eastus.logic.azure.com:443/workflows/e49bea489ec04a19831802c4a01c5512/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=f42q2kd3-3XdDUIRElzqSH5PgLbV1hwFeQ66J6xrQbY`, {'to':to, 'subject':"test mail", 'body': "This is sample email for transaction of x rupees!"});
+
+    fetch('https://prod-51.eastus.logic.azure.com:443/workflows/e49bea489ec04a19831802c4a01c5512/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=f42q2kd3-3XdDUIRElzqSH5PgLbV1hwFeQ66J6xrQbY',
+    {
+        method: 'Post',
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "to":"barge237@gmail.com",
+            "subject":"Money Debit Notification", 
+            "body": `Dear Customer,<br>
+            
+            We are writing to inform you that a debit has been made from your account for the amount of Rs. ${amount}/- .<br><br>
+            If you did not authorize this transaction or have any questions, please contact our customer support team immediately at<br><br>
+            Phone no.: 09874563210<br>
+            Email: vbanking123@gmail.com<br><br> 
+
+            Thank you for your attention to this matter.<br><br>
+            
+            Sincerely,<br><br>
+            
+            VBank`
+        })
+    }).then(function (res){
+        return res.text();
+    })
+    .then(function (json){
+        console.log(json);
+        res.json("Success");
+    })
+    .catch(error => console.log("Error!!"));
+
+    console.log("This worked3");
+
+
+
+    // (async () => {
+    //     const rawResponse = await fetch('https://prod-51.eastus.logic.azure.com:443/workflows/e49bea489ec04a19831802c4a01c5512/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=f42q2kd3-3XdDUIRElzqSH5PgLbV1hwFeQ66J6xrQbY', {
+    //       method: 'POST',
+    //       headers: {
+    //         'Content-Type': 'application/json'
+    //       },
+    //       body: JSON.stringify({
+    //         "to":"barge237@gmail.com",
+    //         "subject":"Money Debit Notification", 
+    //         "body": `Dear Customer,<br>
+            
+    //         We are writing to inform you that a debit has been made from your account for the amount of Rs. ${amount}/- .<br><br>
+    //         If you did not authorize this transaction or have any questions, please contact our customer support team immediately at<br><br>
+    //         Phone no.: 09874563210<br>
+    //         Email: vbanking123@gmail.com<br><br> 
+
+    //         Thank you for your attention to this matter.<br><br>
+            
+    //         Sincerely,<br><br>
+            
+    //         VBank`
+        
+    //       })
+    //     });
+    //     const content = await rawResponse.json();
+      
+    //     console.log(content);
+    //   })();
+
+
+
+
+    // const apiUrl = 'https://prod-51.eastus.logic.azure.com:443/workflows/e49bea489ec04a19831802c4a01c5512/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=f42q2kd3-3XdDUIRElzqSH5PgLbV1hwFeQ66J6xrQbY';
+    // const params = {
+    // to: 'barge237@gmail.com',
+    // subject: 'test mail',
+    // body: 'This is sample email for transaction of x rupees!'
+    // };
+
+    // // Make the API call using axios
+    // axios.get(apiUrl, { params })
+    // .then(response => {
+    //     console.log(response.data);
+    // })
+    // .catch(error => {
+    //     console.error(error);
+    // });
+
+    
+}
 
 exports.transferMoney = (req, res) => {
     Account.findOne({accountNumber: req.body.accountNumber})
@@ -205,6 +322,64 @@ exports.transferMoney = (req, res) => {
             });
         }
     });
+    // console.log("This worked2");
+
+    let to;
+    Account.findOne({accountNumber: req.body.accountNumber}).exec( async(error, account) => {
+        if(error)
+            return res.status(400).json({error});
+        if(account){
+            console.log(account);
+            let id = account.customerID;
+            User.findOne({_id: id}).exec(async(error, user) => {
+                if(error)
+                    return res.status(400).json({error});
+                if(user){
+                    console.log(user);
+                    to = user.email;
+                    console.log(user.email);
+                }
+            
+                    
+            })  
+        }
+    })
+
+    // console.log("yaha tak pohocha re");
+    // const responseData = await axios.post(`https://prod-51.eastus.logic.azure.com:443/workflows/e49bea489ec04a19831802c4a01c5512/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=f42q2kd3-3XdDUIRElzqSH5PgLbV1hwFeQ66J6xrQbY`, {'to':to, 'subject':"test mail", 'body': "This is sample email for transaction of x rupees!"});
+
+    fetch('https://prod-51.eastus.logic.azure.com:443/workflows/e49bea489ec04a19831802c4a01c5512/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=f42q2kd3-3XdDUIRElzqSH5PgLbV1hwFeQ66J6xrQbY',
+    {
+        method: 'Post',
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "to":"barge237@gmail.com",
+            "subject":"Money Debit Notification", 
+            "body": `Dear Customer,<br>
+            
+            We are writing to inform you that a debit has been made from your account for the amount of Rs. ${req.body.amount}/- .<br><br>
+            If you did not authorize this transaction or have any questions, please contact our customer support team immediately at<br><br>
+            Phone no.: 09874563210<br>
+            Email: vbanking123@gmail.com<br><br> 
+
+            Thank you for your attention to this matter.<br><br>
+            
+            Sincerely,<br><br>
+            
+            VBank`
+        })
+    }).then(function (res){
+        return res.text();
+    })
+    .then(function (json){
+        console.log(json);
+        res.json("Success");
+    })
+    .catch(error => console.log("Error!!"));
+
+    // console.log("This worked3");
 }
 
 //get all accounts of a user and the total balance of all accounts

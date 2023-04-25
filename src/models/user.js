@@ -10,14 +10,12 @@ const userSchema = new mongoose.Schema(
         min: 3,
         max: 30,
       },
-     
       phone: {
         type: String,
         required: true,
         min: 10,
         max: 12,
       },
-
       email: {
         type: String,
         required: true,

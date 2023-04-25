@@ -86,6 +86,7 @@ exports.reqSignin = (req, res, next) => {
     const user = jwt.verify(token, process.env.SHH);
     req.user = user;
     next();
+    console.log("This worked1");
     //jwt.decode()
 }
 exports.getID = (req, res) => {
