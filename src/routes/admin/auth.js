@@ -7,7 +7,7 @@ const {listTransactions, allTransactions} = require('../../controllers/transacti
 const router = express.Router();
 //const User = require('../models/user');
 
-// router.post('/signin', signin);
+router.post('/signin', signin);
 router.post('/signup', signup);
 router.post('/auth', auth);
 router.post('/verify', isAdmin, isAuthorized);

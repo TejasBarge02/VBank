@@ -25,7 +25,7 @@ function Charts() {
             // colors: '#ffffff',
           },
           formatter: function (value) {
-            return "$" + value;
+            return "Rs" + value;
           }
         },
       },

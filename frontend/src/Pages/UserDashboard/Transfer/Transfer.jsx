@@ -20,7 +20,7 @@ function Transfer() {
 		onSubmit: (values)=> { 
       popAction(
         'Are you sure?', 
-        `$${values.amount} will be tranfered from account ${values.accountNumber} to account ${values.destinationAccountNumber}`,
+        `Rs ${values.amount} will be tranfered from account ${values.accountNumber} to account ${values.destinationAccountNumber}`,
         'Proceed!',
         ()=>apiCrud(`/api/transfer`, 'POST', 'Successful transaction', {
           accountNumber: values.accountNumber,

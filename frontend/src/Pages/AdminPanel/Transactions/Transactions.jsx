@@ -45,7 +45,7 @@ function Transactions() {
         id: transaction._id,
         transactionType: transaction.transactionType,
         accountNumber: transaction.accountNumber,
-        amount: `$${transaction.amount}`,
+        amount: `Rs ${transaction.amount}`,
         description: transaction.description,
         userId: transaction.customerID,
       }
